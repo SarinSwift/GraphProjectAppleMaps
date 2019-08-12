@@ -62,6 +62,44 @@ class Graph:
             self.vertices[from_vert].add_neighbor(self.vertices[to_vert], weight)
             self.vertices[to_vert].add_neighbor(self.vertices[from_vert], weight)
 
+    def shortes_route(self, from_vert, to_vert, weight=0):
+        """
+        find the shortet route from location a to location b using BFS
+        NOTE: both 'from_vert' and 'to_vert' are names of the vertex
+        """
+        path_found = False
+        q = queue.Queue()       # where we perform bfs
+        visited = set()            # keeps track of seen vertices
+        path = []               # the path of vertices from from_vert to to_vert
+
+        # add in 'from_vert' as a vertex object and then insert it to the qeueu
+        curr = self.get_vertex(from_vert)
+        curr.parent = None
+        q.put(curr)
+        visited.add(curr)
+
+        while q:
+            curr = q.get()
+
+            if curr.name == to_vert:
+                path_found = True
+                break
+
+            for neighbor in curr.neighbors:
+                if neighbor.name not in visited:
+                    q.put(neighbor)
+                    visited.add(neighbor)
+                    neighbor.parent = curr
+
+        if path_found:
+            curr = self.get_vertex(to_vert)
+            while curr is not None:
+                path.append(curr.name)
+                curr = curr.parent
+            return path[::-1]
+        else:
+            print("No available routes from these locations!")
+
 
     def print_graph(self):
 
