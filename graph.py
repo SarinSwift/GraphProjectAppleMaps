@@ -62,6 +62,35 @@ class Graph:
             self.vertices[from_vert].add_neighbor(self.vertices[to_vert], weight)
             self.vertices[to_vert].add_neighbor(self.vertices[from_vert], weight)
 
+    def is_reachable(self, from_vert, to_vert):
+        """
+        return true if there contains a path from 'from_vert' to 'to_vert'.
+        We're going to use the bfs algorithm
+        NOTE: both 'from_vert' and 'to_vert' are names of the vertex
+        """
+        visited = set()         # set to store all vertices that will be passed in bfs
+        q = queue.Queue()       # queue for bfs
+
+        curr = self.get_vertex(from_vert)
+        q.put(curr)
+        visited.add(curr)
+
+        while q:
+            curr = q.get()
+
+            if curr.name == to_vert:
+                return True
+
+            # continue to do bfs since we've not hit 'to_vert' yet
+            for neighbor in curr.neighbors:
+                if neighbor not in visited:
+                    q.put(neighbor)
+                    visited.add(neighbor)
+
+        # bfs completed without visiting 'to_vert'
+        return False
+
+
     def shortes_route(self, from_vert, to_vert, weight=0):
         """
         find the shortet route from location a to location b using BFS
