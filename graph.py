@@ -129,7 +129,7 @@ class Graph:
         else:
             print("No available routes from these locations!")
 
-    def degree_vertex(self, vert):
+    def degree_of_vertex(self, vert):
         """
         find the degree of this input vertex. The degree will represent how many paths this location can go to.
         NOTE: input is the name of a vertex.
